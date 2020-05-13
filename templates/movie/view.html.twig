@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>{{ movie.title }}</h1>
+{% if movie.category is not empty %}
+
+<p>{{ movie.category.label }}</p>
+ {% endif%}
+<p>
+    {% if movie.director is not empty %}
+    Directed by {{ movie.director.name }}
+    {% endif%}
+</p>
+
+{% if movie.awards is not empty %}
+<ul>
+    {% for award in movie.awards %}
+    <li>{{ award.label }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>
+    Ce film n'a obtenu aucune récompense.
+</p>
+{% endif %}
+
+{% endblock %}

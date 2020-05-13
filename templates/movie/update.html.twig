@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Modifier un film</h1>
+
+<form method="POST">
+    <input type="text" name="title" value="{{ movie.title }}"/>
+    <input type="submit" value="Enregistrer" />
+</form>
+
+{% endblock %}
