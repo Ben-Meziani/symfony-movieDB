@@ -24,6 +24,11 @@ class Person {
    * @ORM\Column(type="date")
    */
   private $birthDate;
+    /**
+    *
+    * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="director")
+    */
+  private $movies;
 
   public function getId(): ?int
   {

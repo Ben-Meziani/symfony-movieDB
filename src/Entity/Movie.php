@@ -30,12 +30,12 @@ class Movie
     private $releaseDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="movies")
      */
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="movies")
      */
     private $director;
 
