@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Catégories
+{% endblock %}
+
+{% block body %}
+<h1 class="mt-5"> Catégories</h1>
+<div class="list-group mt-5">
+    {% for category in categories %}
+    <a href="{{ path('category_view', {'id': category.id}) }}" class="list-group-item list-group-item-action">
+        {{ category.label }}
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - {{ person.name }}
+{% endblock %}
+
+{% block body %}
+<h1 class="mt-5">{{ person.name }}</h1>
+Né(e) le {{ person.birthDate | date('d/m/Y')}}
+
+{% if person.movieActors is not empty %}
+<h3 class="mt-5">Acteur</h3>
+<div class="list-group">
+    {% for movieActor in person.movieActors %}
+    <a href="{{ path('movie_view', {'id': movieActor.movie.id}) }}" class="list-group-item list-group-item-action">
+        <strong>{{ movieActor.movie.title }} ({{ movieActor.movie.releaseDate | date('Y') }})</strong> - {{ movieActor.characterName }}
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if person.directedMovies is not empty %}
+<h3 class="mt-5">Réalisateur</h3>
+<div class="list-group">
+    {% for movie in person.directedMovies %}
+    <a href="{{ path('movie_view', {'id': movie.id}) }}" class="list-group-item list-group-item-action">
+        {{ movie.title }} ({{ movie.releaseDate | date('Y') }})
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if person.writedMovies is not empty %}
+<h3 class="mt-5">Scénariste</h3>
+<div class="list-group">
+    {% for movie in person.writedMovies %}
+    <a href="{{ path('movie_view', {'id': movie.id}) }}" class="list-group-item list-group-item-action">
+        {{ movie.title }} ({{ movie.releaseDate | date('Y') }})
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

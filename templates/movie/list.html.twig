@@ -1,5 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+{{ parent() }} - Films
+{% endblock %}
+
 {% block body %}
-{{ dump(movies) }}
+<div class="row mt-5">
+    <div class="col-md-7">
+        <h1>Films</h1>
+    </div>
+    <div class="col-md-5">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name="search" type="search" placeholder="Rechercher un film" aria-label="Search" value="{{ search }}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Go</button>
+        </form>
+    </div>
+</div>
+<div class="list-group mt-5">
+    {% for movie in movies %}
+    <a href="{{ path('movie_view', {'id': movie.id}) }}" class="list-group-item list-group-item-action">
+        {{ movie.title }}
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}

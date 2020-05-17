@@ -6,6 +6,17 @@
 
 <form method="POST">
     <input type="text" name="title" value="{{ movie.title }}"/>
+    <input type="date" name="releaseDate" value="{{ movie.releaseDate | date('Y-m-d') }}"/>
+    <select name="categoryId">
+        {% for category in categories %}
+        <option value="{{ category.id }}" {{ category.id == movie.category.id ? "selected" : "" }}>{{ category.label }}</option>
+        {% endfor %}
+    </select>
+    <select name="personId">
+        {% for person in persons %}
+        <option value="{{ person.id }}" {{ person.id == movie.director.id ? "selected" : "" }}>{{ person.name }}</option>
+        {% endfor %}
+    </select>
     <input type="submit" value="Enregistrer" />
 </form>
 

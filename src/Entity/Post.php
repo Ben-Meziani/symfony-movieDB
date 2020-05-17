@@ -2,30 +2,40 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Entity
  */
-class Category
+class Post
 {
+
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=255)
      */
-    private $label;
+    private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="categories")
+     * @ORM\Column(type="text")
+     */
+    private $content;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="posts")
      */
     private $movies;
 
@@ -39,14 +49,38 @@ class Category
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getTitle(): ?string
     {
-        return $this->label;
+        return $this->title;
     }
 
-    public function setLabel(string $label): self
+    public function setTitle(string $title): self
     {
-        $this->label = $label;
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -63,7 +97,6 @@ class Category
     {
         if (!$this->movies->contains($movie)) {
             $this->movies[] = $movie;
-            $movie->addCategory($this);
         }
 
         return $this;
@@ -73,10 +106,8 @@ class Category
     {
         if ($this->movies->contains($movie)) {
             $this->movies->removeElement($movie);
-            $movie->removeCategory($this);
         }
 
         return $this;
     }
-
 }

@@ -15,17 +15,34 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('homepage') }}">
+            <img src="{{ asset('images/logo.svg') }}" width="30" height="30" class="d-inline-block align-top">
+            MovieDB
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{ path('category_list') }}">Categories</a>
+                <a class="nav-item nav-link" href="{{ path('movie_list') }}">Films</a>
+                <a class="nav-item nav-link" href="{{ path('post_list') }}">Blog</a>
+            </div>
+        </div>
+    </nav>
     <div class="container">
-        
+
         {% for type, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
         {% endfor %}
 
-        
+
         {% block body %}{% endblock %}
     </div>
 

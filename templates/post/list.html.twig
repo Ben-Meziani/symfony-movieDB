@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Articles
+{% endblock %}
+
+{% block body %}
+<h1 class="mt-5">Articles</h1>
+<div class="list-group mt-5">
+    {% for post in posts %}
+    <a href="{{ path('post_view', {'id': post.id}) }}" class="list-group-item list-group-item-action">
+        {{ post.title }}
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

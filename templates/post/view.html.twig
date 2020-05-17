@@ -1,17 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - {{ category.label }}
+    {{ parent() }} - {{ post.title }}
 {% endblock %}
 
 {% block body %}
-<h1 class="mt-5"> Catégories {{ category.label }}</h1>
+<h1 class="mt-5">{{ post.title }}</h1>
+<span>{{ post.createdAt | date('d/m/Y') }}</span>
+<p>
+    {{ post.content }}
+</p>
 <h3 class="mt-5">Films</h3>
 <div class="list-group">
-    {% for movie in category.movies %}
+    {% for movie in post.movies %}
     <a href="{{ path('movie_view', {'id': movie.id}) }}" class="list-group-item list-group-item-action">
         {{ movie.title }} ({{ movie.releaseDate | date('Y') }})
     </a>
     {% endfor %}
 </div>
+
 {% endblock %}
+

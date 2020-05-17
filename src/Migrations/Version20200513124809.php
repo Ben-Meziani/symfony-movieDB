@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200513210201 extends AbstractMigration
+final class Version20200513124809 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,8 @@ final class Version20200513210201 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE award CHANGE movie_id movie_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE movie CHANGE category_id category_id INT DEFAULT NULL, CHANGE director_id director_id INT DEFAULT NULL');
+        $this->addSql('CREATE TABLE award (id INT AUTO_INCREMENT NOT NULL, movie_id INT DEFAULT NULL, label VARCHAR(255) NOT NULL, INDEX IDX_8A5B2EE78F93B6FC (movie_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE award ADD CONSTRAINT FK_8A5B2EE78F93B6FC FOREIGN KEY (movie_id) REFERENCES movie (id)');
     }
 
     public function down(Schema $schema) : void
@@ -31,7 +31,6 @@ final class Version20200513210201 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE award CHANGE movie_id movie_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE movie CHANGE category_id category_id INT DEFAULT NULL, CHANGE director_id director_id INT DEFAULT NULL');
+        $this->addSql('DROP TABLE award');
     }
 }

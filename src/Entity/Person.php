@@ -1,12 +1,17 @@
 <?php
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PersonRepository;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PersonRepository::class)
  */
-class Person {
+class Person
+{
 
     /**
      * @ORM\Id
@@ -16,47 +21,154 @@ class Person {
     private $id;
 
     /**
-    * @ORM\Column(type="string", length=255)
-    */
-   private $name;
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
-   /**
-   * @ORM\Column(type="date")
-   */
-  private $birthDate;
     /**
-    *
-    * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="director")
-    */
-  private $movies;
+     * @ORM\Column(type="date")
+     */
+    private $birthDate;
 
-  public function getId(): ?int
-  {
-      return $this->id;
-  }
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="writers")
+     */
+    private $writedMovies;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="director")
+     */
+    private $directedMovies;
 
-  public function getName(): ?string
-  {
-      return $this->name;
-  }
+    /**
+     * @ORM\OneToMany(targetEntity=MovieActor::class, mappedBy="person", orphanRemoval=true)
+     */
+    private $movieActors;
 
-  public function setName(string $name): self
-  {
-      $this->name = $name;
+    public function __construct()
+    {
+        $this->writedMovies = new ArrayCollection();
+        $this->directedMovies = new ArrayCollection();
+        $this->movieActors = new ArrayCollection();
+    }
 
-      return $this;
-  }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-  public function getBirthDate(): ?\DateTimeInterface
-  {
-      return $this->birthDate;
-  }
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
-  public function setBirthDate(\DateTimeInterface $birthDate): self
-  {
-      $this->birthDate = $birthDate;
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
-      return $this;
-  }
-  
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|Movie[]
+     */
+    public function getWritedMovies(): Collection
+    {
+        return $this->writedMovies;
+    }
+
+    public function addWritedMovie(Movie $writedMovie): self
+    {
+        if (!$this->writedMovies->contains($writedMovie)) {
+            $this->writedMovies[] = $writedMovie;
+            $writedMovie->addWriter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWritedMovie(Movie $writedMovie): self
+    {
+        if ($this->writedMovies->contains($writedMovie)) {
+            $this->writedMovies->removeElement($writedMovie);
+            $writedMovie->removeWriter($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Movie[]
+     */
+    public function getDirectedMovies(): Collection
+    {
+        return $this->directedMovies;
+    }
+
+    public function addDirectedMovie(Movie $directedMovie): self
+    {
+        if (!$this->directedMovies->contains($directedMovie)) {
+            $this->directedMovies[] = $directedMovie;
+            $directedMovie->setDirector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirectedMovie(Movie $directedMovie): self
+    {
+        if ($this->directedMovies->contains($directedMovie)) {
+            $this->directedMovies->removeElement($directedMovie);
+            // set the owning side to null (unless already changed)
+            if ($directedMovie->getDirector() === $this) {
+                $directedMovie->setDirector(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MovieActor[]
+     */
+    public function getMovieActors(): Collection
+    {
+        return $this->movieActors;
+    }
+
+    public function addMovieActor(MovieActor $movieActor): self
+    {
+        if (!$this->movieActors->contains($movieActor)) {
+            $this->movieActors[] = $movieActor;
+            $movieActor->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMovieActor(MovieActor $movieActor): self
+    {
+        if ($this->movieActors->contains($movieActor)) {
+            $this->movieActors->removeElement($movieActor);
+            // set the owning side to null (unless already changed)
+            if ($movieActor->getPerson() === $this) {
+                $movieActor->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
 }

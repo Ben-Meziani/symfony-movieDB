@@ -3,5 +3,11 @@
 {% block title %}{{ parent() }} - Accueil{% endblock %}
 
 {% block body %}
-<h1>Accueil</h1>
+<div class="jumbotron mt-5">
+    <h1 class="display-4">Bienvenue sur MovieDB !</h1>
+    <p class="lead">
+        Découvrez tout l'univers cinematographique grace à notre base de donnée de films, de catégories et d'acteurs. Pour découvrir de nouveaux films vous pouvez explorer les catégories.
+    </p>
+    <a class="btn btn-primary btn-lg" href="{{ path('category_list') }}" role="button">Voir les catégories</a>
+  </div>
 {% endblock %}
