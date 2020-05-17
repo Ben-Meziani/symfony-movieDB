@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
+use App\Entity\Movie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ArticleFixtures extends Fixture
+class MovieFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -15,9 +15,10 @@ class ArticleFixtures extends Fixture
 
         // create 20 categorys! Bam!
         for ($i = 0; $i < 10; $i++) {
-            $category = new Category();
-            $category->setLabel($faker->streetName ());
-            $manager->persist($category);
+            $movie = new Movie();
+            $movie->setTitle($faker->Name ())
+                  ->setReleaseDate($faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null)());
+            $manager->persist($movie);
         }
 
         $manager->flush();
