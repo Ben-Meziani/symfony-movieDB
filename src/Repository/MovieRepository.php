@@ -66,35 +66,11 @@ class MovieRepository extends ServiceEntityRepository
         $builder->leftJoin('movie.writers', 'writer');
         $builder->addSelect('writer');
 
-        $builder->leftJoin('movie.directedMovies', 'category');
+        $builder->leftJoin('movie.categories', 'category');
         $builder->addSelect('category');
 
         $builder->leftJoin('movie.awards', 'award');
         $builder->addSelect('award');
-
-        // je crée un querybuilder sur l'objet Person avec l'alias 'person'
-        $builder = $this->createQueryBuilder('person');
-          // je met ma condition de recherche
-          $builder->where("person.id = :id");
-          // J'ajoute la valeur du parametre utilisé dans ma condition
-          $builder->setParameter('id', $id);
-          // Pareil pour les articles
-        $builder->leftJoin('person.names', 'name');
-        $builder->addSelect('name');
-
-        $builder->leftJoin('person.birthDates', 'birthDate');
-        $builder->addSelect('birthDate');
-
-        $builder->leftJoin('person.writedMovies', 'writedMovie');
-        $builder->addSelect('writedMovie');
-
-        $builder->leftJoin('person.directedMovies', 'directedMovie');
-        $builder->addSelect('directedMovie');
-
-        $builder->leftJoin('person.movieActors', 'actor');
-        // J'ajoute l'acteur au select pour que doctrine alimente les objets associés
-        $builder->addSelect('actor');
-
 
         // j'execute la requete
         $query = $builder->getQuery();
