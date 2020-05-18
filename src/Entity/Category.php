@@ -7,8 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @UniqueEntity(
+ *     fields={"label"},
+ *     errorPath="label",
+ *     message="Une catégorie existe déjà avec ce libellé")
  */
 class Category
 {
@@ -21,6 +30,8 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Length(min=2)
+     * @Assert\NotNull
      */
     private $label;
 
